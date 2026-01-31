@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modern Store</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Our Professional Catalog</h1>
+    <form action="/api/v1/products/view" method="GET" style="margin-bottom: 20px;">
+        <input type="text" name="search" placeholder="Search by name..." value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>">
+         <select name="sort">
+            <option value="newest">Newest First</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+        </select>        
+        
+        <button type="submit">Apply</button>
+        <a href="/api/v1/products/view">Clear</a>
+    </form>
+    <div class="product-grid">
+        <% products.forEach(product => { %>
+            <div class="product-card">
+                <h3><%= product.name %></h3>
+                <p class="price">$<%= product.price %></p>
+                <button style="background: #3498db; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">
+                    Add to Cart
+                </button>
+            </div>
+        <% }) %>
+    </div>
+    <hr>
+    <h2>Add a New Product</h2>
+    <form action="/api/v1/products/submit-form" method="POST">
+        <input type="text" name="name" placeholder="Product Name" required>
+        <input type="number" name="price" placeholder="Price" required>
+        <button type="submit">Create Product</button>
+    </form>
+    <ul>
+        <% products.forEach(product => { %>
+            <li>
+                <strong><%= product.name %></strong> - $<%= product.price %>
+      
+                <form action="/api/v1/products/delete/<%= product._id %>" method="POST" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>
