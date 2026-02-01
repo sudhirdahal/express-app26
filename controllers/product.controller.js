@@ -9,7 +9,13 @@ const Product = require('../models/product.model');
 exports.getAllProducts = async (req, res) => {
     try {
         const products = await Product.find(); // Fetches EVERYTHING from the DB
-        res.status(200).json({ status: 'success', data: { products } });
+        //This is new Jan31 @1550
+        res.render('products', { 
+            products,
+            title: 'Our Shop Catalog', 
+            page_name: 'Home' // useful for highlighting the nav link
+        });
+//        res.status(200).json({ status: 'success', data: { products } });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -84,6 +90,8 @@ exports.getProductsPage = async (req, res) => {
         
         res.render('products', { 
             products, 
+            title: 'Our Products',
+            page_name: 'Products',
             searchTerm: search,
             currentSort: sort 
         });

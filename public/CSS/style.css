@@ -39,3 +39,30 @@ h1 {
     color: #27ae60;
     font-size: 1.2rem;
 }
+
+/* Normal link style */
+/* nav a {
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+} */
+
+/* The style applied ONLY when page_name matches */
+/* nav a.active {
+    color: blue;
+    font-weight: bold;
+    border-bottom: 2px solid blue;
+} */
+
+/* This targets all links in your nav and removes the browser's default line */
+nav a {
+    text-decoration: none; /* This kills the underline/strikethrough */
+    color: #333;           /* This overrides the -webkit-link blue color */
+}
+
+/* This adds a fresh style only when the link is active */
+nav a.active {
+    font-weight: bold;
+    color: blue;
+    border-bottom: 2px solid blue; /* A cleaner way to show it's active */
+}

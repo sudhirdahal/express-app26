@@ -7,6 +7,41 @@ const logger = require('./middleware/logger');
 //Import Routers
 const userRouter = require('./routes/user.routes.js');
 const productRouter = require ('./routes/product.routes.js');
+
+// ... inside app.js configuration
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Serve static files (CSS, Images)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 1. GLOBAL MIDDLEWARE: Runs for every single request
+app.use(express.json()); 
+// ADD THIS for HTML Forms!
+app.use(express.urlencoded({ extended: true })); 
+app.use(logger);
+
+// ROUTES (Mounting the mini-apps)
+app.use('/api/v1/users', userRouter);
+// 2. SELECTIVE MIDDLEWARE: Only protect product routes
+// Users can see the homepage, but only "authorized" users can touch products
+app.use('/api/v1/products', productRouter);
+
+
+// Fallback for undefined routes
+app.use((req, res) => {
+    res.status(404).json({ message: `Can't find ${req.originalUrl} on this server!` });
+});
+
+module.exports = app;
+
+
+
+
+
+
+
+
 // const port = 3000
 
 //The following code defines a route handler in an Express.js application
@@ -92,30 +127,4 @@ app.get('/', (req, res) => {
 
  */
 
-// ... inside app.js configuration
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// Serve static files (CSS, Images)
-app.use(express.static(path.join(__dirname, 'public')));
-
-// 1. GLOBAL MIDDLEWARE: Runs for every single request
-app.use(express.json()); 
-// ADD THIS for HTML Forms!
-app.use(express.urlencoded({ extended: true })); 
-app.use(logger);
-
-// ROUTES (Mounting the mini-apps)
-app.use('/api/v1/users', userRouter);
-// 2. SELECTIVE MIDDLEWARE: Only protect product routes
-// Users can see the homepage, but only "authorized" users can touch products
-app.use('/api/v1/products', productRouter);
-
-
-// Fallback for undefined routes
-app.use((req, res) => {
-    res.status(404).json({ message: `Can't find ${req.originalUrl} on this server!` });
-});
-
-module.exports = app;
 
