@@ -10,10 +10,12 @@ exports.getAllProducts = async (req, res) => {
     try {
         const products = await Product.find(); // Fetches EVERYTHING from the DB
         //This is new Jan31 @1550
-        res.render('products', { 
+        res.render('products', {
             products,
-            title: 'Our Shop Catalog', 
-            page_name: 'Home' // useful for highlighting the nav link
+            title: 'Our Shop Catalog',
+            page_name: 'Home',
+            searchTerm: undefined,
+            currentSort: undefined
         });
 //        res.status(200).json({ status: 'success', data: { products } });
     } catch (err) {
